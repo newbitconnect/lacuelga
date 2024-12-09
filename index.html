@@ -620,6 +620,10 @@
             confettiPiece.style.animationDelay = `${Math.random() * 2}s`; // Retraso de inicio
 
             confettiContainer.appendChild(confettiPiece);
+            // Eliminar confeti después de 10 segundos
+        setTimeout(() => {
+            confettiContainer.innerHTML = '';
+        }, 10000); // 10 segundos
         }
     });
 </script>

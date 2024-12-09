@@ -165,111 +165,80 @@
         .pricing-card .cta {
             margin-top: 10px;
         }
-        .chat-button {
+        .chatbot {
             position: fixed;
-            bottom: 20px;
+            bottom: 100px;
             right: 20px;
-            background-color: #ffa07a;
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-        .chat-button:hover {
-            transform: scale(1.1);
-            background-color: #ff7f50;
-        }
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             background-color: #fff;
-            padding: 20px;
+            border: 1px solid #ccc;
             border-radius: 10px;
+            width: 300px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
             display: none;
-            z-index: 1000;
         }
-        .popup h2 {
-            margin-top: 0;
-            color: #ffa07a;
-        }
-        .popup button {
-            margin-top: 10px;
-            padding: 10px 20px;
-            border: none;
+        .chatbot-header {
             background-color: #ffa07a;
             color: #fff;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 10px 10px 0 0;
+        }
+        .chatbot-messages {
+            padding: 10px;
+            height: 200px;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+        .chatbot-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+        .chatbot-input input {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+        .chatbot-input button {
+            padding: 5px 10px;
+            background-color: #ffa07a;
+            color: #fff;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .popup button:hover {
-            background-color: #ff7f50;
         }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Pop-up de bienvenida
-            const popup = document.querySelector(".popup");
-            popup.style.display = "block";
+            // Chatbot toggle
+            const chatButton = document.querySelector(".chat-button");
+            const chatbot = document.querySelector(".chatbot");
+            const chatbotInput = document.querySelector(".chatbot-input input");
+            const chatbotMessages = document.querySelector(".chatbot-messages");
 
-            document.querySelector(".popup button").addEventListener("click", function () {
-                popup.style.display = "none";
+            chatButton.addEventListener("click", function () {
+                chatbot.style.display = chatbot.style.display === "block" ? "none" : "block";
             });
 
-            // Animaciones al desplazarse
-            const sections = document.querySelectorAll(".section");
-            const observer = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting) {
-                            entry.target.style.opacity = 1;
-                            entry.target.style.transform = "translateY(0)";
-                        }
-                    });
-                },
-                { threshold: 0.1 }
-            );
-
-            sections.forEach((section) => {
-                section.style.opacity = 0;
-                section.style.transform = "translateY(20px)";
-                observer.observe(section);
+            document.querySelector(".chatbot-input button").addEventListener("click", function () {
+                const userMessage = chatbotInput.value.trim();
+                if (userMessage) {
+                    const userBubble = `<div><strong>Usuario:</strong> ${userMessage}</div>`;
+                    const botBubble = `<div><strong>Bot:</strong> ¡Gracias por tu mensaje! Pronto nos pondremos en contacto.</div>`;
+                    chatbotMessages.innerHTML += userBubble + botBubble;
+                    chatbotInput.value = "";
+                    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                }
             });
         });
     </script>
 </head>
 <body>
-    <div class="popup">
-        <h2>¡Bienvenido a La Cuelga!</h2>
-        <p>Descubre nuestros packs de fiesta y obtén un descuento especial del 10%.</p>
-        <button>Cerrar</button>
-    </div>
-
     <header>
-        <div class="confetti">
-            <!-- Generar confeti animado -->
-            <script>
-                for (let i = 0; i < 50; i++) {
-                    const confettiPiece = document.createElement('span');
-                    confettiPiece.style.left = `${Math.random() * 100}%`;
-                    confettiPiece.style.animationDelay = `${Math.random() * 2}s`;
-                    confettiPiece.style.animationDuration = `${Math.random() * 3 + 2}s`;
-                    document.querySelector('.confetti').appendChild(confettiPiece);
-                }
-            </script>
-        </div>
+        <div class="confetti"></div>
         <h1>La Cuelga</h1>
         <p>Fiestas y cumpleaños inolvidables con detalles únicos</p>
     </header>
@@ -278,95 +247,33 @@
         <a href="#inicio">Inicio</a>
         <a href="#catalogo">Catálogo</a>
         <a href="#personalizacion">Personalización</a>
-        <a href="#testimonios">Testimonios</a>
-        <a href="#galeria">Galería</a>
-        <a href="#precios">Precios</a>
         <a href="#contacto">Contacto</a>
     </nav>
 
     <div class="container">
-        <section id="inicio" class="section">
-            <h2>¿Qué es La Cuelga?</h2>
-            <p>La Cuelga es tu mejor opción para hacer de cualquier evento una celebración especial. Ofrecemos packs temáticos de golosinas y snacks, cuidadosamente diseñados para cumpleaños, bodas y eventos.</p>
-        </section>
-
-        <section id="catalogo" class="section">
-            <h2>Catálogo</h2>
-            <p>Explora nuestros packs:</p>
-            <ul>
-                <li><strong>Pack Infantil:</strong> Incluye bolsas de golosinas, mini zumos y decoraciones temáticas.</li>
-                <li><strong>Pack Premium:</strong> Chocolates gourmet, mini botellas de agua personalizadas, y más.</li>
-                <li><strong>Pack Temático:</strong> Personalizado según la ocasión, con etiquetas únicas y decoraciones especiales.</li>
-            </ul>
-            <p class="cta"><a href="#contacto">Haz tu pedido ahora</a></p>
-        </section>
-
-        <section id="personalizacion" class="section">
-            <h2>Personalización</h2>
-            <p>¿Tienes una idea única? ¡Podemos personalizar los packs para que se ajusten a tus necesidades!</p>
-            <p>Agrega etiquetas con nombres, diseños temáticos y mucho más.</p>
-        </section>
-
-        <section id="testimonios" class="section">
-            <h2>Testimonios</h2>
-            <div class="testimonial">
-                "¡Mi fiesta fue un éxito gracias a La Cuelga! Los packs eran hermosos y todos los invitados quedaron encantados."
-                - María López
-            </div>
-            <div class="testimonial">
-                "La personalización fue perfecta. Mis hijos amaron las decoraciones de sus cumpleaños."
-                - Juan Pérez
-            </div>
-        </section>
-
-        <section id="galeria" class="section">
-            <h2>Galería</h2>
-            <div class="gallery">
-                <img src="img/pack1.jpg" alt="Pack Infantil">
-                <img src="img/pack2.jpg" alt="Pack Premium">
-                <img src="img/pack3.jpg" alt="Pack Temático">
-            </div>
-        </section>
-
-        <section id="precios" class="section">
-            <h2>Precios</h2>
-            <div class="pricing">
-                <div class="pricing-card">
-                    <h3>Pack Infantil</h3>
-                    <p>€20 por pack</p>
-                    <p>Incluye golosinas y decoraciones básicas.</p>
-                    <p class="cta"><a href="#contacto">Seleccionar</a></p>
-                </div>
-                <div class="pricing-card">
-                    <h3>Pack Premium</h3>
-                    <p>€50 por pack</p>
-                    <p>Chocolates gourmet y personalización avanzada.</p>
-                    <p class="cta"><a href="#contacto">Seleccionar</a></p>
-                </div>
-                <div class="pricing-card">
-                    <h3>Pack Temático</h3>
-                    <p>€70 por pack</p>
-                    <p>Diseño personalizado único para tu evento.</p>
-                    <p class="cta"><a href="#contacto">Seleccionar</a></p>
-                </div>
-            </div>
-        </section>
-
         <section id="contacto" class="section">
-            <h2>Contacto</h2>
-            <p>¿Tienes preguntas o quieres realizar un pedido? Contáctanos:</p>
-            <ul>
-                <li><strong>Email:</strong> contacto@lacuelga.com</li>
-                <li><strong>Teléfono:</strong> +34 600 123 456</li>
-                <li><strong>WhatsApp:</strong> +34 600 123 456</li>
-            </ul>
+            <h2>Formulario Interactivo</h2>
+            <form>
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+
+                <button>Enviar</button>
+            </form>
         </section>
+        <section>
+        <h3> Contador promocional </h3>
+        </section>
+
+        <section class="chatbot">
+            <div class="chatbot-header">Preguntas rápidas:</div>
+            <div class="chatbot-messages"></div>
+        </section>
+
+
     </div>
 
-    <button class="chat-button" onclick="window.open('https://wa.me/34600123456', '_blank')">💬</button>
 
-    <footer>
-        <p>&copy; 2024 La Cuelga. Todos los derechos reservados.</p>
-    </footer>
 </body>
-</html>

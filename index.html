@@ -187,9 +187,76 @@
             transform: scale(1.1);
             background-color: #ff7f50;
         }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            display: none;
+            z-index: 1000;
+        }
+        .popup h2 {
+            margin-top: 0;
+            color: #ffa07a;
+        }
+        .popup button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #ffa07a;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .popup button:hover {
+            background-color: #ff7f50;
+        }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Pop-up de bienvenida
+            const popup = document.querySelector(".popup");
+            popup.style.display = "block";
+
+            document.querySelector(".popup button").addEventListener("click", function () {
+                popup.style.display = "none";
+            });
+
+            // Animaciones al desplazarse
+            const sections = document.querySelectorAll(".section");
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = 1;
+                            entry.target.style.transform = "translateY(0)";
+                        }
+                    });
+                },
+                { threshold: 0.1 }
+            );
+
+            sections.forEach((section) => {
+                section.style.opacity = 0;
+                section.style.transform = "translateY(20px)";
+                observer.observe(section);
+            });
+        });
+    </script>
 </head>
 <body>
+    <div class="popup">
+        <h2>¡Bienvenido a La Cuelga!</h2>
+        <p>Descubre nuestros packs de fiesta y obtén un descuento especial del 10%.</p>
+        <button>Cerrar</button>
+    </div>
+
     <header>
         <div class="confetti">
             <!-- Generar confeti animado -->
